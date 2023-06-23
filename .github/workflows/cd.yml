@@ -34,29 +34,40 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     outputs:
-      should_release: ${{ steps.verify-ci-status.outputs.result == 'success' && steps.interesting-categories.outputs.interesting == 'true' }}
+      should_release: ${{ (steps.verify-ci-status.outputs.result == 'success' && steps.interesting-categories.outputs.interesting == 'true') || inputs.dev == true }}
     steps:
       - name: Verify CI status
         uses: jenkins-infra/verify-ci-status-action@v1.2.2
         id: verify-ci-status
+        if: inputs.dev == false
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           output_result: true
 
       - name: Release Drafter
         uses: release-drafter/release-drafter@v5
-        if: steps.verify-ci-status.outputs.result == 'success'
+        if: steps.verify-ci-status.outputs.result == 'success' && inputs.dev == false
         with:
           name: next
           tag: next
           version: next
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Release Drafter2
+        uses: release-drafter/release-drafter@v5
+        if: inputs.dev == true
+        with:
+          name: ${{ inputs.tag }}
+          tag: ${{ inputs.tag }}
+          version: ${{ inputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check interesting categories
         uses: jenkins-infra/interesting-category-action@v1.2.1
         id: interesting-categories
-        if: steps.verify-ci-status.outputs.result == 'success'
+        if: steps.verify-ci-status.outputs.result == 'success' || inputs.dev == false
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
