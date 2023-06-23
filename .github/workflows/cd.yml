@@ -3,17 +3,17 @@
 name: Plugin Deployment
 on:
   workflow_call:
-      inputs:
-        tag:
-          description: 'Jenkins tag name'
-          required: false
-          type: string
-          default: nightly
-        dev:
-          description: 'Is dev build'
-          required: false
-          default: true
-          type: boolean
+    inputs:
+      tag:
+        description: 'Jenkins tag name'
+        required: false
+        type: string
+        default: nightly
+      dev:
+        description: 'Is dev build'
+        required: false
+        default: true
+        type: boolean
   workflow_dispatch:
   check_run:
     types:
