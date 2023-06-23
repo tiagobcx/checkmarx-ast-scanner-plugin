@@ -58,9 +58,9 @@ jobs:
         uses: release-drafter/release-drafter@v5
         if: inputs.dev == true
         with:
-          name: ${{ inputs.tag }}
+          name: next
           tag: ${{ inputs.tag }}
-          version: ${{ inputs.tag }}
+          version: next
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
