@@ -95,11 +95,19 @@ jobs:
           asset_name: checkmarx-ast-scanner.hpi
           asset_content_type: application/multipart-core
           overwrite: true
+      - name: NPM ci and build
+        if: inputs.dev == true
+        run: |
+          mvn compile
+          mvn package -DskipTests
       - name: Create Release
         uses: softprops/action-gh-release@v1
         if: inputs.dev == true
+        env:
+          GITHUB_TOKEN: ${{ github.token}}
         with:
           name: ${{inputs.tag}}
           tag_name: ${{inputs.tag}}
           generate_release_notes: true
           prerelease: true
+          files: checkmarx-ast-scanner.hpi
