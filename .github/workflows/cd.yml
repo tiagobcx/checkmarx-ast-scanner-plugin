@@ -95,7 +95,7 @@ jobs:
           asset_name: checkmarx-ast-scanner.hpi
           asset_content_type: application/multipart-core
           overwrite: true
-      - name: NPM ci and build
+      - name: mvn compile and package
         if: inputs.dev == true
         run: |
           mvn compile
