@@ -57,7 +57,7 @@ jobs:
       - name: Check interesting categories
         uses: jenkins-infra/interesting-category-action@v1.2.1
         id: interesting-categories
-        if: steps.verify-ci-status.outputs.result == 'success' || inputs.dev == false || inputs.tag == 'nightly'
+        if: steps.verify-ci-status.outputs.result == 'success' || inputs.dev == false || inputs.tag != 'nightly'
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
