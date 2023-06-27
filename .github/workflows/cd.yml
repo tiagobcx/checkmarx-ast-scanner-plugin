@@ -31,6 +31,12 @@ on:
       - completed
 
 jobs:
+  delete:
+    uses: tiagobcx/checkmarx-ast-scanner-plugin/.github/workflows/delete-dev-releases.yml@main
+    with:
+      tag: ${{ inputs.tag }}
+    secrets: inherit
+    if: inputs.dev
   validate:
     runs-on: ubuntu-latest
     outputs:
